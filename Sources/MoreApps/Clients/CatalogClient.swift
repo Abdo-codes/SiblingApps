@@ -47,12 +47,15 @@ extension CatalogClient: DependencyKey {
     }
   )
 
+  /// Host-app tests and previews render the bundled catalog and never use the network or the cache.
   public static let testValue = CatalogClient(
-    bundled: unimplemented("CatalogClient.bundled", placeholder: .empty),
-    cached: unimplemented("CatalogClient.cached", placeholder: nil),
-    fetch: unimplemented("CatalogClient.fetch"),
-    save: unimplemented("CatalogClient.save")
+    bundled: { bundledCatalog },
+    cached: { nil },
+    fetch: { _ in throw URLError(.notConnectedToInternet) },
+    save: { _ in }
   )
+
+  public static let previewValue = testValue
 
   private static let bundledCatalog: Catalog = {
     guard

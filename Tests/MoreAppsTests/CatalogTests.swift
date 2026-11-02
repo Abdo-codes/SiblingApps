@@ -63,3 +63,8 @@ struct CatalogTests {
     #expect(app.launchURL == URL(string: "tateemi://"))
   }
 }
+
+@Test func rowTitleFollowsLocale() {
+  #expect(MoreAppsStrings.rowTitle(locale: Locale(identifier: "en")) == "More apps by us")
+  #expect(MoreAppsStrings.rowTitle(locale: Locale(identifier: "ar")) == "المزيد من تطبيقاتنا")
+}
