@@ -1,0 +1,222 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "moreApps.action.get": {
+      "comment": "Button that shows the App Store page of an app",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحميل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get"
+          }
+        }
+      }
+    },
+    "moreApps.action.open": {
+      "comment": "Button that opens an installed app",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        }
+      }
+    },
+    "moreApps.action.view": {
+      "comment": "Button that shows the App Store page of an app for another device",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
+          }
+        }
+      }
+    },
+    "moreApps.group.appleTV": {
+      "comment": "Group of Apple TV apps",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لأجهزة Apple TV"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For Apple TV"
+          }
+        }
+      }
+    },
+    "moreApps.group.mac": {
+      "comment": "Group of Mac apps",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لأجهزة Mac"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For Mac"
+          }
+        }
+      }
+    },
+    "moreApps.group.otherDevices": {
+      "comment": "Group of Apple TV and Mac apps",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لأجهزة Apple TV و Mac"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For Apple TV & Mac"
+          }
+        }
+      }
+    },
+    "moreApps.group.thisDevice": {
+      "comment": "Group of apps that run on this device",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لأجهزة iPhone و iPad"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For iPhone & iPad"
+          }
+        }
+      }
+    },
+    "moreApps.section.footer": {
+      "comment": "Footer below the More Apps section",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "من صُنع الفريق الصغير نفسه. جميعها مجانية للتجربة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Made by the same small team. All free to try."
+          }
+        }
+      }
+    },
+    "moreApps.section.title": {
+      "comment": "Settings section header above the featured apps",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المزيد من تطبيقاتنا"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More apps by us"
+          }
+        }
+      }
+    },
+    "moreApps.seeAll": {
+      "comment": "Row that opens the full list of apps",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض كل التطبيقات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See All Apps"
+          }
+        }
+      }
+    },
+    "moreApps.subtitle %@": {
+      "comment": "Line under the title. The argument is the name of the host app",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "من صُنّاع %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From the makers of %@"
+          }
+        }
+      }
+    },
+    "moreApps.title": {
+      "comment": "Navigation title of the full list",
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المزيد من التطبيقات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More Apps"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "appicon-6759179587.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
