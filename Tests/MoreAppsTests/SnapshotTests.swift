@@ -1,3 +1,4 @@
+import Dependencies
 import SnapshotTesting
 import SwiftUI
 import Testing
@@ -27,6 +28,23 @@ struct SnapshotTests {
       MoreAppsView(model: Fixtures.model())
     }
     assertSnapshot(of: variant.apply(to: view), as: variant.strategy(.iPhone13), named: variant.rawValue)
+  }
+
+  @Test(arguments: [Variant.light, .arabic])
+  func sheet(_ variant: Variant) {
+    let view = MoreAppsSheet(model: Fixtures.model())
+    assertSnapshot(of: variant.apply(to: view), as: variant.strategy(.iPhone13), named: variant.rawValue)
+  }
+
+  @Test func icon() {
+    let view = withDependencies {
+      $0.catalogClient.bundled = { Fixtures.bundledCatalog }
+      $0.appLauncher.canOpen = { _ in false }
+    } operation: {
+      MoreAppsIcon(configuration: MoreAppsConfiguration(hostBundleID: Fixtures.hostBundleID), size: 60)
+    }
+    .padding()
+    assertSnapshot(of: view, as: .image)
   }
 
   @Test(arguments: [Variant.light, .dark])
