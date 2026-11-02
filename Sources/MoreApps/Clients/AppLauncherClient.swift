@@ -34,11 +34,8 @@ extension AppLauncherClient: DependencyKey {
     }
   )
 
-  public static let testValue = AppLauncherClient(
-    canOpen: unimplemented("AppLauncherClient.canOpen", placeholder: false),
-    open: unimplemented("AppLauncherClient.open"),
-    showProductPage: unimplemented("AppLauncherClient.showProductPage")
-  )
+  /// Host-app tests see no installed apps, and taps do nothing.
+  public static let testValue = previewValue
 
   public static let previewValue = AppLauncherClient(
     canOpen: { _ in false },

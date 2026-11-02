@@ -55,6 +55,23 @@
         }
       }
     },
+    "moreApps.done": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      }
+    },
     "moreApps.group.appleTV": {
       "comment": "Group of Apple TV apps",
       "extractionState": "manual",

@@ -25,6 +25,24 @@ List {
 
 The section must be in a `List` or `Form` inside a `NavigationStack`. To show the full screen yourself, push `MoreAppsView()`.
 
+### Themed Settings screens
+
+If the Settings screen is a custom layout (cards in a `ScrollView`, a game menu), draw one row in your own style and present `MoreAppsSheet` from it. The sheet has its own navigation stack and a Done button. `MoreAppsIcon` gives the 2×2 icon for the row.
+
+```swift
+Button {
+  showsMoreApps = true
+} label: {
+  HStack {
+    MoreAppsIcon(configuration: configuration, size: 40)
+    Text(MoreAppsStrings.rowTitle)
+  }
+}
+.sheet(isPresented: $showsMoreApps) {
+  MoreAppsSheet(configuration: configuration)
+}
+```
+
 ## Configure
 
 ```swift
