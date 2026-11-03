@@ -1,4 +1,3 @@
-import Dependencies
 import Foundation
 
 /// Downloads and caches the remote catalog.
@@ -19,8 +18,8 @@ public struct CatalogClient: Sendable {
   }
 }
 
-extension CatalogClient: DependencyKey {
-  public static let liveValue = CatalogClient(
+extension CatalogClient {
+  public static let live = CatalogClient(
     cached: {
       guard let data = try? Data(contentsOf: cacheURL) else { return nil }
       return try? JSONDecoder().decode(Catalog.self, from: data)
@@ -42,24 +41,14 @@ extension CatalogClient: DependencyKey {
     }
   )
 
-  /// Host-app tests and previews use the catalog source of the configuration and never use the network or the cache.
-  public static let testValue = CatalogClient(
+  /// For tests and previews: uses the catalog source of the configuration, and never uses the network or the cache.
+  public static let preview = CatalogClient(
     cached: { nil },
     fetch: { _ in throw URLError(.notConnectedToInternet) },
     save: { _ in }
   )
 
-  public static let previewValue = testValue
-
-
   private static let cacheURL = URL.cachesDirectory
     .appending(path: "SiblingApps", directoryHint: .isDirectory)
     .appending(path: "catalog.json")
-}
-
-extension DependencyValues {
-  public var catalogClient: CatalogClient {
-    get { self[CatalogClient.self] }
-    set { self[CatalogClient.self] = newValue }
-  }
 }

@@ -2,19 +2,19 @@ import SwiftUI
 
 /// The compact-width layout of `SiblingAppsView`: grouped rows, one group for each kind of device.
 struct SiblingAppsList: View {
-  let model: SiblingAppsModel
+  let viewModel: SiblingAppsViewModel
 
   var body: some View {
     List {
-      Text("moreApps.subtitle \(model.configuration.hostAppName)", bundle: .module)
+      Text("moreApps.subtitle \(viewModel.configuration.hostAppName)", bundle: .module)
         .font(.subheadline)
         .foregroundStyle(.secondary)
         .listRowBackground(Color.clear)
         .listRowInsets(EdgeInsets())
         .listRowSeparator(.hidden)
 
-      appSection(model.deviceApps, title: SectionTitles.thisDevice)
-      appSection(model.otherDeviceApps, title: SectionTitles.otherDevices(model.otherDeviceApps))
+      appSection(viewModel.state.deviceApps, title: SectionTitles.thisDevice)
+      appSection(viewModel.state.otherDeviceApps, title: SectionTitles.otherDevices(viewModel.state.otherDeviceApps))
     }
     .listStyle(.insetGrouped)
   }
@@ -25,14 +25,14 @@ struct SiblingAppsList: View {
       Section {
         ForEach(apps) { app in
           Button {
-            Task { await model.perform(app) }
+            Task { await viewModel.send(.appTapped(app)) }
           } label: {
             AppRow(
               app: app,
-              action: model.action(for: app),
+              action: viewModel.state.action(for: app),
               style: .regular,
-              devicePlatform: model.devicePlatform,
-              iconBundle: model.configuration.iconBundle
+              devicePlatform: viewModel.state.devicePlatform,
+              iconBundle: viewModel.configuration.iconBundle
             )
           }
         }

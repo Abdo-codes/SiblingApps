@@ -2,7 +2,7 @@ import SwiftUI
 
 /// The regular-width layout of `SiblingAppsView`: cards in adaptive columns, for iPad.
 struct SiblingAppsGrid: View {
-  let model: SiblingAppsModel
+  let viewModel: SiblingAppsViewModel
 
   private let columns = [GridItem(.adaptive(minimum: 320), spacing: 16)]
 
@@ -10,14 +10,14 @@ struct SiblingAppsGrid: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 28) {
         VStack(alignment: .leading, spacing: 4) {
-          Text("moreApps.subtitle \(model.configuration.hostAppName)", bundle: .module)
+          Text("moreApps.subtitle \(viewModel.configuration.hostAppName)", bundle: .module)
             .font(.title.bold())
           Text("moreApps.section.footer", bundle: .module)
             .font(.subheadline)
             .foregroundStyle(.secondary)
         }
-        cardSection(model.deviceApps, title: SectionTitles.thisDevice)
-        cardSection(model.otherDeviceApps, title: SectionTitles.otherDevices(model.otherDeviceApps))
+        cardSection(viewModel.state.deviceApps, title: SectionTitles.thisDevice)
+        cardSection(viewModel.state.otherDeviceApps, title: SectionTitles.otherDevices(viewModel.state.otherDeviceApps))
       }
       .padding(32)
       .frame(maxWidth: .infinity, alignment: .leading)
@@ -36,14 +36,14 @@ struct SiblingAppsGrid: View {
         LazyVGrid(columns: columns, spacing: 16) {
           ForEach(apps) { app in
             Button {
-              Task { await model.perform(app) }
+              Task { await viewModel.send(.appTapped(app)) }
             } label: {
               AppRow(
                 app: app,
-                action: model.action(for: app),
+                action: viewModel.state.action(for: app),
                 style: .regular,
-                devicePlatform: model.devicePlatform,
-                iconBundle: model.configuration.iconBundle
+                devicePlatform: viewModel.state.devicePlatform,
+                iconBundle: viewModel.configuration.iconBundle
               )
               .padding(16)
               .background(

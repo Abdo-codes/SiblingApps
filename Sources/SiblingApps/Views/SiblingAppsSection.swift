@@ -11,46 +11,46 @@ import SwiftUI
 /// }
 /// ```
 public struct SiblingAppsSection: View {
-  @State private var model: SiblingAppsModel
+  @State private var viewModel: SiblingAppsViewModel
 
   public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration()) {
-    _model = State(initialValue: SiblingAppsModel(configuration: configuration))
+    _viewModel = State(initialValue: SiblingAppsViewModel(configuration: configuration))
   }
 
-  init(model: SiblingAppsModel) {
-    _model = State(initialValue: model)
+  init(viewModel: SiblingAppsViewModel) {
+    _viewModel = State(initialValue: viewModel)
   }
 
   public var body: some View {
     Group {
-      if !model.apps.isEmpty {
+      if !viewModel.state.apps.isEmpty {
         content
       }
     }
     // Refresh also when the catalog is empty, so that a remote-only catalog can load the first time.
-    .task { await model.refresh() }
+    .task { await viewModel.send(.refresh) }
   }
 
   private var content: some View {
     Section {
-      ForEach(model.featuredApps) { app in
+      ForEach(viewModel.state.featuredApps) { app in
         Button {
-          Task { await model.perform(app) }
+          Task { await viewModel.send(.appTapped(app)) }
         } label: {
           AppRow(
             app: app,
-            action: model.action(for: app),
+            action: viewModel.state.action(for: app),
             style: .compact,
-            devicePlatform: model.devicePlatform,
-            iconBundle: model.configuration.iconBundle
+            devicePlatform: viewModel.state.devicePlatform,
+            iconBundle: viewModel.configuration.iconBundle
           )
         }
       }
       NavigationLink {
-        SiblingAppsView(model: model)
+        SiblingAppsView(viewModel: viewModel)
       } label: {
         HStack(spacing: 12) {
-          FolderTileIcon(apps: model.folderApps, iconBundle: model.configuration.iconBundle)
+          FolderTileIcon(apps: viewModel.state.folderApps, iconBundle: viewModel.configuration.iconBundle)
           Text("moreApps.seeAll", bundle: .module)
             .foregroundStyle(.tint)
         }

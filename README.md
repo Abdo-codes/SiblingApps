@@ -163,6 +163,28 @@ Button {
 
 `SiblingAppsView(configuration:)` is the full screen with no navigation stack, if you want to push it yourself.
 
+### Tests and previews
+
+Pass the `.preview` clients. They use no network and no cache, they see no installed apps, and taps do nothing.
+
+```swift
+SiblingAppsConfiguration(catalog: .bundled(.main), catalogClient: .preview, appLauncher: .preview)
+```
+
+### Your own views
+
+`SiblingAppsViewModel` is a plain `@Observable` class. A view reads `state`, calls `send(_:)` with an `Input`, and the host app gets each `Output` in `onEvent`.
+
+```swift
+let viewModel = SiblingAppsViewModel(configuration: moreApps)
+ForEach(viewModel.state.featuredApps) { app in
+  Button(app.name.resolved(for: .current)) {
+    Task { await viewModel.send(.appTapped(app)) }
+  }
+}
+.task { await viewModel.send(.refresh) }
+```
+
 ## JSON schema
 
 ```json
@@ -199,7 +221,7 @@ The order of `apps` is the display order. The package skips an entry that does n
 
 - iOS 17 or later (iPhone and iPad)
 - Swift 6 (Xcode 16 or later)
-- One dependency: [swift-dependencies](https://github.com/pointfreeco/swift-dependencies)
+- No third-party dependencies
 
 ## Privacy
 

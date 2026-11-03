@@ -1,4 +1,3 @@
-import Dependencies
 import UIKit
 
 /// Finds installed apps, opens them, and shows App Store pages.
@@ -21,8 +20,8 @@ public struct AppLauncherClient: Sendable {
   }
 }
 
-extension AppLauncherClient: DependencyKey {
-  public static let liveValue = AppLauncherClient(
+extension AppLauncherClient {
+  public static let live = AppLauncherClient(
     canOpen: { UIApplication.shared.canOpenURL($0) },
     open: { _ = await UIApplication.shared.open($0) },
     showProductPage: { appID, campaignToken, providerToken in
@@ -34,19 +33,10 @@ extension AppLauncherClient: DependencyKey {
     }
   )
 
-  /// Host-app tests see no installed apps, and taps do nothing.
-  public static let testValue = previewValue
-
-  public static let previewValue = AppLauncherClient(
+  /// For tests and previews: no apps are installed, and taps do nothing.
+  public static let preview = AppLauncherClient(
     canOpen: { _ in false },
     open: { _ in },
     showProductPage: { _, _, _ in }
   )
-}
-
-extension DependencyValues {
-  public var appLauncher: AppLauncherClient {
-    get { self[AppLauncherClient.self] }
-    set { self[AppLauncherClient.self] = newValue }
-  }
 }

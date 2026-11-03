@@ -1,5 +1,3 @@
-import ConcurrencyExtras
-import Dependencies
 import Foundation
 @testable import SiblingApps
 import SiblingAppsAbdoCatalog
@@ -32,31 +30,28 @@ enum Fixtures {
     )
   }
 
-  /// Makes a model with `AbdoCatalog`. Wi-Fi QR is the host app and Tateemi is installed.
+  /// Makes a view model with `AbdoCatalog`. Wi-Fi QR is the host app and Tateemi is installed.
   @MainActor
-  static func model(
+  static func viewModel(
     platform: ApplePlatform = .iPhone,
     remoteCatalogURL: URL? = nil,
     providerToken: String? = nil,
     installedSchemes: Set<String> = ["tateemi"],
-    events: LockIsolated<[SiblingAppsEvent]>? = nil,
-    dependencies: (inout DependencyValues) -> Void = { _ in }
-  ) -> SiblingAppsModel {
-    withDependencies {
-      $0.appLauncher.canOpen = { url in installedSchemes.contains(url.scheme ?? "") }
-      dependencies(&$0)
-    } operation: {
-      SiblingAppsModel(
-        configuration: SiblingAppsConfiguration(
-          hostBundleID: hostBundleID,
-          hostAppName: "Wi-Fi QR",
-          catalog: AbdoCatalog.source,
-          remoteCatalogURL: remoteCatalogURL,
-          providerToken: providerToken,
-          onEvent: { event in events?.withValue { $0.append(event) } }
-        ),
-        devicePlatform: platform
-      )
-    }
+    events: Locked<[SiblingAppsEvent]>? = nil,
+    configure: (inout SiblingAppsConfiguration) -> Void = { _ in }
+  ) -> SiblingAppsViewModel {
+    var configuration = SiblingAppsConfiguration(
+      hostBundleID: hostBundleID,
+      hostAppName: "Wi-Fi QR",
+      catalog: AbdoCatalog.source,
+      remoteCatalogURL: remoteCatalogURL,
+      providerToken: providerToken,
+      catalogClient: .preview,
+      appLauncher: .preview,
+      onEvent: { event in events?.withValue { $0.append(event) } }
+    )
+    configuration.appLauncher.canOpen = { url in installedSchemes.contains(url.scheme ?? "") }
+    configure(&configuration)
+    return SiblingAppsViewModel(configuration: configuration, devicePlatform: platform)
   }
 }

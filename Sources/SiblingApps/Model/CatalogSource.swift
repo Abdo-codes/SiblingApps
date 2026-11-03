@@ -1,5 +1,5 @@
-import Dependencies
 import Foundation
+import OSLog
 
 /// Where the package finds the catalog when there is no downloaded copy.
 public enum CatalogSource: Sendable {
@@ -16,7 +16,7 @@ public enum CatalogSource: Sendable {
     }
   }
 
-  /// Reads the catalog. If the file is missing or does not decode, it reports an issue and returns an empty catalog.
+  /// Reads the catalog. If the file is missing or does not decode, it logs an error and returns an empty catalog.
   public func load() -> Catalog {
     switch self {
     case let .inline(catalog):
@@ -27,7 +27,8 @@ public enum CatalogSource: Sendable {
         let data = try? Data(contentsOf: url),
         let catalog = try? JSONDecoder().decode(Catalog.self, from: data)
       else {
-        reportIssue("SiblingApps: \(resource).json is missing from \(bundle.bundleURL.lastPathComponent) or does not decode.")
+        Logger(subsystem: "SiblingApps", category: "catalog")
+          .error("\(resource).json is missing from \(bundle.bundleURL.lastPathComponent) or does not decode.")
         return .empty
       }
       return catalog

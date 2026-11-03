@@ -20,6 +20,10 @@ public struct SiblingAppsConfiguration: Sendable {
   public var campaignToken: String
   /// Your App Store Connect provider ID. App Analytics needs it to attribute campaigns.
   public var providerToken: String?
+  /// Reads and downloads the catalog. Use `.preview` in tests and previews.
+  public var catalogClient: CatalogClient
+  /// Finds and opens apps. Use `.preview` in tests and previews.
+  public var appLauncher: AppLauncherClient
   public var onEvent: @MainActor @Sendable (SiblingAppsEvent) -> Void
 
   public init(
@@ -31,6 +35,8 @@ public struct SiblingAppsConfiguration: Sendable {
     featuredCount: Int = 3,
     campaignToken: String = "more-apps",
     providerToken: String? = nil,
+    catalogClient: CatalogClient = .live,
+    appLauncher: AppLauncherClient = .live,
     onEvent: @escaping @MainActor @Sendable (SiblingAppsEvent) -> Void = { _ in }
   ) {
     self.hostBundleID = hostBundleID
@@ -41,6 +47,8 @@ public struct SiblingAppsConfiguration: Sendable {
     self.featuredCount = featuredCount
     self.campaignToken = campaignToken
     self.providerToken = providerToken
+    self.catalogClient = catalogClient
+    self.appLauncher = appLauncher
     self.onEvent = onEvent
   }
 }
