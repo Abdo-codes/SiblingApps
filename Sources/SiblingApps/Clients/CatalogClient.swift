@@ -53,7 +53,7 @@ extension CatalogClient: DependencyKey {
 
 
   private static let cacheURL = URL.cachesDirectory
-    .appending(path: "MoreApps", directoryHint: .isDirectory)
+    .appending(path: "SiblingApps", directoryHint: .isDirectory)
     .appending(path: "catalog.json")
 }
 

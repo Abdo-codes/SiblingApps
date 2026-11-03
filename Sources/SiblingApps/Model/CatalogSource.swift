@@ -27,7 +27,7 @@ public enum CatalogSource: Sendable {
         let data = try? Data(contentsOf: url),
         let catalog = try? JSONDecoder().decode(Catalog.self, from: data)
       else {
-        reportIssue("MoreApps: \(resource).json is missing from \(bundle.bundleURL.lastPathComponent) or does not decode.")
+        reportIssue("SiblingApps: \(resource).json is missing from \(bundle.bundleURL.lastPathComponent) or does not decode.")
         return .empty
       }
       return catalog

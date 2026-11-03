@@ -2,25 +2,25 @@ import SwiftUI
 
 /// The full screen of apps. It shows a list in compact width and a grid of cards in regular width.
 ///
-/// `MoreAppsSection` pushes this screen. You can also push or present it yourself.
-public struct MoreAppsView: View {
-  @State private var model: MoreAppsModel
+/// `SiblingAppsSection` pushes this screen. You can also push or present it yourself.
+public struct SiblingAppsView: View {
+  @State private var model: SiblingAppsModel
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-  public init(configuration: MoreAppsConfiguration = MoreAppsConfiguration()) {
-    _model = State(initialValue: MoreAppsModel(configuration: configuration))
+  public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration()) {
+    _model = State(initialValue: SiblingAppsModel(configuration: configuration))
   }
 
-  init(model: MoreAppsModel) {
+  init(model: SiblingAppsModel) {
     _model = State(initialValue: model)
   }
 
   public var body: some View {
     Group {
       if horizontalSizeClass == .regular {
-        MoreAppsGrid(model: model)
+        SiblingAppsGrid(model: model)
       } else {
-        MoreAppsList(model: model)
+        SiblingAppsList(model: model)
       }
     }
     .navigationTitle(Text("moreApps.title", bundle: .module))

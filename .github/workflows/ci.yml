@@ -29,6 +29,6 @@ jobs:
         run: |
           DEVICE=$(xcrun simctl list devices available | grep -m1 -oE 'iPhone [^(]*\(([0-9A-F-]{36})\)' | grep -oE '[0-9A-F-]{36}')
           xcodebuild test \
-            -scheme MoreApps-Package \
+            -scheme SiblingApps-Package \
             -destination "platform=iOS Simulator,id=$DEVICE" \
-            -skip-testing:MoreAppsTests/SnapshotTests
+            -skip-testing:SiblingAppsTests/SnapshotTests

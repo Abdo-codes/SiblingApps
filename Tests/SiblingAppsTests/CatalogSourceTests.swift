@@ -1,15 +1,15 @@
 import Foundation
 import Testing
-@testable import MoreApps
-import MoreAppsAbdoCatalog
+@testable import SiblingApps
+import SiblingAppsAbdoCatalog
 
 @MainActor
 struct CatalogSourceTests {
   @Test func defaultConfigurationShowsNoApps() {
-    let configuration = MoreAppsConfiguration(hostBundleID: "com.example.host")
+    let configuration = SiblingAppsConfiguration(hostBundleID: "com.example.host")
     #expect(configuration.catalog.load() == .empty)
     #expect(configuration.iconBundle == nil)
-    #expect(MoreAppsModel(configuration: configuration).apps.isEmpty)
+    #expect(SiblingAppsModel(configuration: configuration).apps.isEmpty)
   }
 
   /// The README example: a catalog in code, with remote icons.
@@ -28,19 +28,19 @@ struct CatalogSourceTests {
         )
       ]
     )
-    let configuration = MoreAppsConfiguration(hostBundleID: "com.example.host", catalog: .inline(catalog))
+    let configuration = SiblingAppsConfiguration(hostBundleID: "com.example.host", catalog: .inline(catalog))
     #expect(configuration.iconBundle == nil)
-    #expect(MoreAppsModel(configuration: configuration).apps.map(\.id) == [1])
+    #expect(SiblingAppsModel(configuration: configuration).apps.map(\.id) == [1])
   }
 
   @Test func bundledCatalogUsesItsBundleForIcons() {
-    let configuration = MoreAppsConfiguration(catalog: AbdoCatalog.source)
+    let configuration = SiblingAppsConfiguration(catalog: AbdoCatalog.source)
     #expect(configuration.iconBundle == AbdoCatalog.source.bundle)
     #expect(configuration.iconBundle != nil)
   }
 
   @Test func explicitIconBundleWins() {
-    let configuration = MoreAppsConfiguration(catalog: AbdoCatalog.source, iconBundle: .main)
+    let configuration = SiblingAppsConfiguration(catalog: AbdoCatalog.source, iconBundle: .main)
     #expect(configuration.iconBundle == .main)
   }
 

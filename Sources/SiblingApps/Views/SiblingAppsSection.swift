@@ -7,17 +7,17 @@ import SwiftUI
 /// ```swift
 /// List {
 ///   // Your sections …
-///   MoreAppsSection()
+///   SiblingAppsSection()
 /// }
 /// ```
-public struct MoreAppsSection: View {
-  @State private var model: MoreAppsModel
+public struct SiblingAppsSection: View {
+  @State private var model: SiblingAppsModel
 
-  public init(configuration: MoreAppsConfiguration = MoreAppsConfiguration()) {
-    _model = State(initialValue: MoreAppsModel(configuration: configuration))
+  public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration()) {
+    _model = State(initialValue: SiblingAppsModel(configuration: configuration))
   }
 
-  init(model: MoreAppsModel) {
+  init(model: SiblingAppsModel) {
     _model = State(initialValue: model)
   }
 
@@ -47,7 +47,7 @@ public struct MoreAppsSection: View {
         }
       }
       NavigationLink {
-        MoreAppsView(model: model)
+        SiblingAppsView(model: model)
       } label: {
         HStack(spacing: 12) {
           FolderTileIcon(apps: model.folderApps, iconBundle: model.configuration.iconBundle)

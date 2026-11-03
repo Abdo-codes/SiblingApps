@@ -2,8 +2,8 @@ import Dependencies
 import SnapshotTesting
 import SwiftUI
 import Testing
-@testable import MoreApps
-import MoreAppsAbdoCatalog
+@testable import SiblingApps
+import SiblingAppsAbdoCatalog
 
 /// Renders the screens of the Paper design: light, dark, and Arabic RTL on iPhone, and the iPad grid.
 @MainActor
@@ -16,7 +16,7 @@ struct SnapshotTests {
         Section {
           Label("General", systemImage: "gear")
         }
-        MoreAppsSection(model: Fixtures.model())
+        SiblingAppsSection(model: Fixtures.model())
       }
       .navigationTitle(variant.settingsTitle)
     }
@@ -26,14 +26,14 @@ struct SnapshotTests {
   @Test(arguments: Variant.allCases)
   func allAppsList(_ variant: Variant) {
     let view = NavigationStack {
-      MoreAppsView(model: Fixtures.model())
+      SiblingAppsView(model: Fixtures.model())
     }
     assertSnapshot(of: variant.apply(to: view), as: variant.strategy(.iPhone13), named: variant.rawValue)
   }
 
   @Test(arguments: [Variant.light, .arabic])
   func sheet(_ variant: Variant) {
-    let view = MoreAppsSheet(model: Fixtures.model())
+    let view = SiblingAppsSheet(model: Fixtures.model())
     assertSnapshot(of: variant.apply(to: view), as: variant.strategy(.iPhone13), named: variant.rawValue)
   }
 
@@ -41,8 +41,8 @@ struct SnapshotTests {
     let view = withDependencies {
       $0.appLauncher.canOpen = { _ in false }
     } operation: {
-      MoreAppsIcon(
-        configuration: MoreAppsConfiguration(hostBundleID: Fixtures.hostBundleID, catalog: AbdoCatalog.source),
+      SiblingAppsIcon(
+        configuration: SiblingAppsConfiguration(hostBundleID: Fixtures.hostBundleID, catalog: AbdoCatalog.source),
         size: 60
       )
     }
@@ -53,7 +53,7 @@ struct SnapshotTests {
   @Test(arguments: [Variant.light, .dark])
   func iPadGrid(_ variant: Variant) {
     let view = NavigationStack {
-      MoreAppsView(model: Fixtures.model(platform: .iPad))
+      SiblingAppsView(model: Fixtures.model(platform: .iPad))
     }
     assertSnapshot(
       of: variant.apply(to: view),

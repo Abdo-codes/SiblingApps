@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// The regular-width layout of `MoreAppsView`: cards in adaptive columns, for iPad.
-struct MoreAppsGrid: View {
-  let model: MoreAppsModel
+/// The regular-width layout of `SiblingAppsView`: cards in adaptive columns, for iPad.
+struct SiblingAppsGrid: View {
+  let model: SiblingAppsModel
 
   private let columns = [GridItem(.adaptive(minimum: 320), spacing: 16)]
 

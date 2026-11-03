@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import MoreApps
+@testable import SiblingApps
 
 struct CatalogTests {
   @Test func bundledCatalogHasAllAppsInOrder() {
@@ -65,6 +65,6 @@ struct CatalogTests {
 }
 
 @Test func rowTitleFollowsLocale() {
-  #expect(MoreAppsStrings.rowTitle(locale: Locale(identifier: "en")) == "More apps by us")
-  #expect(MoreAppsStrings.rowTitle(locale: Locale(identifier: "ar")) == "المزيد من تطبيقاتنا")
+  #expect(SiblingAppsStrings.rowTitle(locale: Locale(identifier: "en")) == "More apps by us")
+  #expect(SiblingAppsStrings.rowTitle(locale: Locale(identifier: "ar")) == "المزيد من تطبيقاتنا")
 }

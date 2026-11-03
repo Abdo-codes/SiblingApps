@@ -5,8 +5,8 @@ import Observation
 /// Holds the catalog for one host app and decides what each app row shows.
 @MainActor
 @Observable
-public final class MoreAppsModel {
-  public let configuration: MoreAppsConfiguration
+public final class SiblingAppsModel {
+  public let configuration: SiblingAppsConfiguration
   /// The catalog apps without the host app, in catalog order.
   public private(set) var apps: [CatalogApp] = []
   private(set) var installedAppIDs: Set<Int> = []
@@ -15,7 +15,7 @@ public final class MoreAppsModel {
   @ObservationIgnored @Dependency(\.catalogClient) private var catalogClient
   @ObservationIgnored @Dependency(\.appLauncher) private var appLauncher
 
-  public init(configuration: MoreAppsConfiguration, devicePlatform: ApplePlatform = .current) {
+  public init(configuration: SiblingAppsConfiguration, devicePlatform: ApplePlatform = .current) {
     self.configuration = configuration
     self.devicePlatform = devicePlatform
     // Use the cache only when a remote catalog is set. Else an old download can hide newer bundled apps.

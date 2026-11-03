@@ -1,8 +1,8 @@
 import ConcurrencyExtras
 import Dependencies
 import Foundation
-@testable import MoreApps
-import MoreAppsAbdoCatalog
+@testable import SiblingApps
+import SiblingAppsAbdoCatalog
 
 /// App Store IDs of the apps in `AbdoCatalog`.
 enum AppID {
@@ -38,15 +38,15 @@ enum Fixtures {
     remoteCatalogURL: URL? = nil,
     providerToken: String? = nil,
     installedSchemes: Set<String> = ["tateemi"],
-    events: LockIsolated<[MoreAppsEvent]>? = nil,
+    events: LockIsolated<[SiblingAppsEvent]>? = nil,
     dependencies: (inout DependencyValues) -> Void = { _ in }
-  ) -> MoreAppsModel {
+  ) -> SiblingAppsModel {
     withDependencies {
       $0.appLauncher.canOpen = { url in installedSchemes.contains(url.scheme ?? "") }
       dependencies(&$0)
     } operation: {
-      MoreAppsModel(
-        configuration: MoreAppsConfiguration(
+      SiblingAppsModel(
+        configuration: SiblingAppsConfiguration(
           hostBundleID: hostBundleID,
           hostAppName: "Wi-Fi QR",
           catalog: AbdoCatalog.source,

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Settings that each host app gives to the package.
-public struct MoreAppsConfiguration: Sendable {
+public struct SiblingAppsConfiguration: Sendable {
   /// The package hides the app with this bundle ID, so that an app does not promote itself.
   public var hostBundleID: String
   /// The name in "From the makers of …".
@@ -20,18 +20,18 @@ public struct MoreAppsConfiguration: Sendable {
   public var campaignToken: String
   /// Your App Store Connect provider ID. App Analytics needs it to attribute campaigns.
   public var providerToken: String?
-  public var onEvent: @MainActor @Sendable (MoreAppsEvent) -> Void
+  public var onEvent: @MainActor @Sendable (SiblingAppsEvent) -> Void
 
   public init(
     hostBundleID: String = Bundle.main.bundleIdentifier ?? "",
-    hostAppName: String = Bundle.main.moreAppsDisplayName,
+    hostAppName: String = Bundle.main.siblingAppsDisplayName,
     catalog: CatalogSource = .inline(.empty),
     iconBundle: Bundle? = nil,
     remoteCatalogURL: URL? = nil,
     featuredCount: Int = 3,
     campaignToken: String = "more-apps",
     providerToken: String? = nil,
-    onEvent: @escaping @MainActor @Sendable (MoreAppsEvent) -> Void = { _ in }
+    onEvent: @escaping @MainActor @Sendable (SiblingAppsEvent) -> Void = { _ in }
   ) {
     self.hostBundleID = hostBundleID
     self.hostAppName = hostAppName
@@ -47,7 +47,7 @@ public struct MoreAppsConfiguration: Sendable {
 
 extension Bundle {
   /// The localized display name of the bundle, for example "Wi-Fi QR".
-  public var moreAppsDisplayName: String {
+  public var siblingAppsDisplayName: String {
     let keys = ["CFBundleDisplayName", "CFBundleName"]
     for key in keys {
       if let name = localizedInfoDictionary?[key] as? String ?? infoDictionary?[key] as? String {
