@@ -2,10 +2,10 @@ import ConcurrencyExtras
 import Dependencies
 import Foundation
 import Testing
-@testable import MoreApps
+@testable import SiblingApps
 
 @MainActor
-struct MoreAppsModelTests {
+struct SiblingAppsModelTests {
   @Test func hidesTheHostApp() {
     let model = Fixtures.model()
     #expect(!model.apps.map(\.id).contains(AppID.wifiQR))
@@ -92,7 +92,7 @@ struct MoreAppsModelTests {
 
   @Test func performShowsTheProductPageWithTokens() async throws {
     let pages = LockIsolated<[String]>([])
-    let events = LockIsolated<[MoreAppsEvent]>([])
+    let events = LockIsolated<[SiblingAppsEvent]>([])
     let model = Fixtures.model(providerToken: "118", events: events) {
       $0.appLauncher.showProductPage = { id, campaign, provider in
         pages.withValue { $0.append("\(id) \(campaign) \(provider ?? "-")") }
@@ -106,7 +106,7 @@ struct MoreAppsModelTests {
 
   @Test func performOpensAnInstalledApp() async throws {
     let opened = LockIsolated<[URL]>([])
-    let events = LockIsolated<[MoreAppsEvent]>([])
+    let events = LockIsolated<[SiblingAppsEvent]>([])
     let model = Fixtures.model(events: events) {
       $0.appLauncher.open = { url in opened.withValue { $0.append(url) } }
     }

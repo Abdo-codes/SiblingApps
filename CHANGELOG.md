@@ -2,6 +2,33 @@
 
 This project uses [Semantic Versioning](https://semver.org). Before 1.0.0, a minor version can break the API.
 
+## 0.4.0
+
+### Breaking: the package is now SiblingApps
+
+The package, products, modules and public types have new names. The behavior is the same as 0.3.0.
+
+| Old (0.3.0) | New (0.4.0) |
+|-------------|-------------|
+| `https://github.com/Abdo-codes/MoreApps` | `https://github.com/Abdo-codes/SiblingApps` |
+| `import MoreApps` | `import SiblingApps` |
+| `import MoreAppsAbdoCatalog` | `import SiblingAppsAbdoCatalog` |
+| `MoreAppsSection`, `MoreAppsView`, `MoreAppsSheet`, `MoreAppsIcon` | `SiblingAppsSection`, `SiblingAppsView`, `SiblingAppsSheet`, `SiblingAppsIcon` |
+| `MoreAppsConfiguration`, `MoreAppsModel`, `MoreAppsEvent`, `MoreAppsStrings` | `SiblingAppsConfiguration`, `SiblingAppsModel`, `SiblingAppsEvent`, `SiblingAppsStrings` |
+| `Bundle.moreAppsDisplayName` | `Bundle.siblingAppsDisplayName` |
+
+To migrate:
+
+1. Change the package URL to `https://github.com/Abdo-codes/SiblingApps` and the version to `from: "0.4.0"`. GitHub redirects the old URL, but use the new one.
+2. Change the product names: `.product(name: "SiblingApps", package: "SiblingApps")`.
+3. Replace `MoreApps` with `SiblingApps` in your imports and type names.
+
+The cache folder of the remote catalog is now `Caches/SiblingApps`. The first launch after the update downloads the catalog again.
+
+### Added
+
+- A logo, a GitHub social preview, and a new README.
+
 ## 0.3.0
 
 ### Breaking

@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// The compact-width layout of `MoreAppsView`: grouped rows, one group for each kind of device.
-struct MoreAppsList: View {
-  let model: MoreAppsModel
+/// The compact-width layout of `SiblingAppsView`: grouped rows, one group for each kind of device.
+struct SiblingAppsList: View {
+  let model: SiblingAppsModel
 
   var body: some View {
     List {

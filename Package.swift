@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-  name: "MoreApps",
+  name: "SiblingApps",
   defaultLocalization: "en",
   platforms: [.iOS(.v17)],
   products: [
-    .library(name: "MoreApps", targets: ["MoreApps"]),
-    .library(name: "MoreAppsAbdoCatalog", targets: ["MoreAppsAbdoCatalog"]),
+    .library(name: "SiblingApps", targets: ["SiblingApps"]),
+    .library(name: "SiblingAppsAbdoCatalog", targets: ["SiblingAppsAbdoCatalog"]),
   ],
   dependencies: [
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.11.0"),
@@ -15,22 +15,22 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "MoreApps",
+      name: "SiblingApps",
       dependencies: [
         .product(name: "Dependencies", package: "swift-dependencies")
       ],
       resources: [.process("Resources")]
     ),
     .target(
-      name: "MoreAppsAbdoCatalog",
-      dependencies: ["MoreApps"],
+      name: "SiblingAppsAbdoCatalog",
+      dependencies: ["SiblingApps"],
       resources: [.process("Resources")]
     ),
     .testTarget(
-      name: "MoreAppsTests",
+      name: "SiblingAppsTests",
       dependencies: [
-        "MoreApps",
-        "MoreAppsAbdoCatalog",
+        "SiblingApps",
+        "SiblingAppsAbdoCatalog",
         .product(name: "DependenciesTestSupport", package: "swift-dependencies"),
         .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
       ],

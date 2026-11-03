@@ -5,24 +5,24 @@ import SwiftUI
 /// Use it when the host Settings screen is not a `List` or `Form`, for example a themed card:
 ///
 /// ```swift
-/// Button("More apps by us") { showsMoreApps = true }
-///   .sheet(isPresented: $showsMoreApps) { MoreAppsSheet() }
+/// Button("More apps by us") { showsSiblingApps = true }
+///   .sheet(isPresented: $showsSiblingApps) { SiblingAppsSheet() }
 /// ```
-public struct MoreAppsSheet: View {
-  @State private var model: MoreAppsModel
+public struct SiblingAppsSheet: View {
+  @State private var model: SiblingAppsModel
   @Environment(\.dismiss) private var dismiss
 
-  public init(configuration: MoreAppsConfiguration = MoreAppsConfiguration()) {
-    _model = State(initialValue: MoreAppsModel(configuration: configuration))
+  public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration()) {
+    _model = State(initialValue: SiblingAppsModel(configuration: configuration))
   }
 
-  init(model: MoreAppsModel) {
+  init(model: SiblingAppsModel) {
     _model = State(initialValue: model)
   }
 
   public var body: some View {
     NavigationStack {
-      MoreAppsView(model: model)
+      SiblingAppsView(model: model)
         .toolbar {
           ToolbarItem(placement: .confirmationAction) {
             Button {

@@ -1,12 +1,12 @@
 import SwiftUI
 
 /// The 2×2 icon of the "See All Apps" row, for a row that a host app draws in its own style.
-public struct MoreAppsIcon: View {
-  @State private var model: MoreAppsModel
+public struct SiblingAppsIcon: View {
+  @State private var model: SiblingAppsModel
   private let size: CGFloat
 
-  public init(configuration: MoreAppsConfiguration = MoreAppsConfiguration(), size: CGFloat = 48) {
-    _model = State(initialValue: MoreAppsModel(configuration: configuration))
+  public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration(), size: CGFloat = 48) {
+    _model = State(initialValue: SiblingAppsModel(configuration: configuration))
     self.size = size
   }
 

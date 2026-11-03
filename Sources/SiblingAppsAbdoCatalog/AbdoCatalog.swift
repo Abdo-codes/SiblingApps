@@ -1,11 +1,11 @@
 import Foundation
-import MoreApps
+import SiblingApps
 
 /// The catalog and icons of the apps by Abdo Eaita. These brand assets are not covered by the MIT license.
 ///
 /// ```swift
-/// MoreAppsSection(
-///   configuration: MoreAppsConfiguration(catalog: AbdoCatalog.source, remoteCatalogURL: AbdoCatalog.remoteURL)
+/// SiblingAppsSection(
+///   configuration: SiblingAppsConfiguration(catalog: AbdoCatalog.source, remoteCatalogURL: AbdoCatalog.remoteURL)
 /// )
 /// ```
 public enum AbdoCatalog {

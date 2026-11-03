@@ -12,13 +12,13 @@
   <img src="https://img.shields.io/badge/platforms-iOS%2017%2B-blue" alt="Platforms: iOS 17+">
   <img src="https://img.shields.io/badge/Swift-6.0-orange" alt="Swift 6.0">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-black" alt="License: MIT"></a>
-  <a href="https://github.com/Abdo-codes/MoreApps/actions/workflows/ci.yml"><img src="https://github.com/Abdo-codes/MoreApps/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/Abdo-codes/SiblingApps/actions/workflows/ci.yml"><img src="https://github.com/Abdo-codes/SiblingApps/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
 
 <p align="center">
-  <img src="Tests/MoreAppsTests/__Snapshots__/SnapshotTests/settingsSection-_.light.png" alt="The Settings section in light mode" width="260">
+  <img src="Tests/SiblingAppsTests/__Snapshots__/SnapshotTests/settingsSection-_.light.png" alt="The Settings section in light mode" width="260">
   &nbsp;
-  <img src="Tests/MoreAppsTests/__Snapshots__/SnapshotTests/settingsSection-_.dark.png" alt="The Settings section in dark mode" width="260">
+  <img src="Tests/SiblingAppsTests/__Snapshots__/SnapshotTests/settingsSection-_.dark.png" alt="The Settings section in dark mode" width="260">
 </p>
 
 You make more than one app. Each app can help people find the others. This package adds a small "More apps by us" section to Settings, a full list of your apps, and the App Store sheet. It works on iPhone and iPad, in English and Arabic (RTL), and in light and dark mode.
@@ -31,13 +31,13 @@ You make more than one app. Each app can help people find the others. This packa
 
 ## Quick start
 
-1. Add the package: `https://github.com/Abdo-codes/MoreApps`.
+1. Add the package: `https://github.com/Abdo-codes/SiblingApps`.
 2. List your apps:
 
    ```swift
-   import MoreApps
+   import SiblingApps
 
-   let moreApps = MoreAppsConfiguration(
+   let moreApps = SiblingAppsConfiguration(
      catalog: .inline(Catalog(schemaVersion: 1, apps: [
        CatalogApp(
          id: 1234567890,  // the App Store ID
@@ -58,24 +58,24 @@ You make more than one app. Each app can help people find the others. This packa
    NavigationStack {
      List {
        // Your sections …
-       MoreAppsSection(configuration: moreApps)
+       SiblingAppsSection(configuration: moreApps)
      }
    }
    ```
 
 ## Installation
 
-**Xcode:** select **File > Add Package Dependencies**, enter the URL, and add the `MoreApps` library to your app target.
+**Xcode:** select **File > Add Package Dependencies**, enter the URL, and add the `SiblingApps` library to your app target.
 
 **Package.swift:**
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/Abdo-codes/MoreApps", from: "0.3.0"),
+  .package(url: "https://github.com/Abdo-codes/SiblingApps", from: "0.4.0"),
 ],
 targets: [
   .target(name: "MyApp", dependencies: [
-    .product(name: "MoreApps", package: "MoreApps"),
+    .product(name: "SiblingApps", package: "SiblingApps"),
   ]),
 ]
 ```
@@ -93,7 +93,7 @@ Use `.inline(Catalog(...))`, as in the quick start. This is good for a short lis
 Add `catalog.json` to your app target (see [JSON schema](#json-schema)) and use `.bundled(.main)`:
 
 ```swift
-let moreApps = MoreAppsConfiguration(catalog: .bundled(.main))
+let moreApps = SiblingAppsConfiguration(catalog: .bundled(.main))
 ```
 
 To use a different file name, pass `.bundled(.main, resource: "my-apps")`.
@@ -103,7 +103,7 @@ To use a different file name, pass `.bundled(.main, resource: "my-apps")`.
 The package downloads `iconURL` for each app. To show icons with no download, add 180 × 180 px images named `appicon-<App Store ID>` to an asset catalog. A `.bundled` catalog finds them in its own bundle. For an `.inline` catalog, set the bundle:
 
 ```swift
-MoreAppsConfiguration(catalog: .inline(catalog), iconBundle: .main)
+SiblingAppsConfiguration(catalog: .inline(catalog), iconBundle: .main)
 ```
 
 ### Show "Open" for installed apps
@@ -124,7 +124,7 @@ If a scheme is not in this list, the app shows "Get".
 Host the same JSON on your server and set `remoteCatalogURL`. When the screen appears, the package downloads the file and caches it. With no cache and no network, it uses `catalog`.
 
 ```swift
-MoreAppsConfiguration(
+SiblingAppsConfiguration(
   catalog: .bundled(.main),
   remoteCatalogURL: URL(string: "https://example.com/apps/catalog.json")
 )
@@ -140,28 +140,28 @@ MoreAppsConfiguration(
 | `featuredCount` | `3` | The number of apps in the Settings section. |
 | `campaignToken` | `"more-apps"` | App Store Connect shows it in App Analytics > Sources. |
 | `providerToken` | `nil` | Your provider ID. App Analytics needs it to attribute campaigns. |
-| `onEvent` | no-op | Gets a `MoreAppsEvent` when the All Apps screen shows or a person taps an app. Send it to your own analytics. |
+| `onEvent` | no-op | Gets a `SiblingAppsEvent` when the All Apps screen shows or a person taps an app. Send it to your own analytics. |
 | `hostBundleID`, `hostAppName` | from `Bundle.main` | The host app, which the package hides. |
 
 ### Your own Settings design
 
-If your Settings screen is not a `List` (cards in a `ScrollView`, a game menu), draw one row in your style and present `MoreAppsSheet`. The sheet has its own navigation stack and a Done button. `MoreAppsIcon` draws the 2×2 icon of your apps.
+If your Settings screen is not a `List` (cards in a `ScrollView`, a game menu), draw one row in your style and present `SiblingAppsSheet`. The sheet has its own navigation stack and a Done button. `SiblingAppsIcon` draws the 2×2 icon of your apps.
 
 ```swift
 Button {
-  showsMoreApps = true
+  showsSiblingApps = true
 } label: {
   HStack {
-    MoreAppsIcon(configuration: moreApps, size: 40)
-    Text(MoreAppsStrings.rowTitle)
+    SiblingAppsIcon(configuration: moreApps, size: 40)
+    Text(SiblingAppsStrings.rowTitle)
   }
 }
-.sheet(isPresented: $showsMoreApps) {
-  MoreAppsSheet(configuration: moreApps)
+.sheet(isPresented: $showsSiblingApps) {
+  SiblingAppsSheet(configuration: moreApps)
 }
 ```
 
-`MoreAppsView(configuration:)` is the full screen with no navigation stack, if you want to push it yourself.
+`SiblingAppsView(configuration:)` is the full screen with no navigation stack, if you want to push it yourself.
 
 ## JSON schema
 
@@ -216,7 +216,7 @@ Issues and pull requests are welcome. New languages for the built-in text are a 
 2. Run the tests:
 
    ```bash
-   xcodebuild test -scheme MoreApps-Package -destination 'platform=iOS Simulator,name=iPhone 17'
+   xcodebuild test -scheme SiblingApps-Package -destination 'platform=iOS Simulator,name=iPhone 17'
    ```
 
 3. If a screen changes, delete its old snapshots and run the tests two times to record them again. The snapshot tests need the same simulator for each run, so CI skips them.
@@ -226,4 +226,4 @@ Issues and pull requests are welcome. New languages for the built-in text are a 
 
 The code is MIT. See [LICENSE](LICENSE).
 
-The `MoreAppsAbdoCatalog` product holds the catalog and icons of the author's own apps. These brand assets are not under the MIT license, so do not ship them in your app. See [NOTICE](NOTICE).
+The `SiblingAppsAbdoCatalog` product holds the catalog and icons of the author's own apps. These brand assets are not under the MIT license, so do not ship them in your app. See [NOTICE](NOTICE).
