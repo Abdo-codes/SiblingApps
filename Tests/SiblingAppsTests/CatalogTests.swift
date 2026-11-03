@@ -7,7 +7,7 @@ struct CatalogTests {
     #expect(
       Fixtures.bundledCatalog.apps.map(\.id) == [
         AppID.capybaraRush, AppID.tateemi, AppID.angryNona, AppID.colorTalk,
-        AppID.wifiQR, AppID.sajdah, AppID.tally, AppID.nightcap,
+        AppID.wifiQR, AppID.swingCoach, AppID.sajdah, AppID.tally, AppID.nightcap,
       ]
     )
   }
