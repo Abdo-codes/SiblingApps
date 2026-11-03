@@ -4,28 +4,28 @@ import SwiftUI
 ///
 /// `SiblingAppsSection` pushes this screen. You can also push or present it yourself.
 public struct SiblingAppsView: View {
-  @State private var model: SiblingAppsModel
+  @State private var viewModel: SiblingAppsViewModel
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
   public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration()) {
-    _model = State(initialValue: SiblingAppsModel(configuration: configuration))
+    _viewModel = State(initialValue: SiblingAppsViewModel(configuration: configuration))
   }
 
-  init(model: SiblingAppsModel) {
-    _model = State(initialValue: model)
+  init(viewModel: SiblingAppsViewModel) {
+    _viewModel = State(initialValue: viewModel)
   }
 
   public var body: some View {
     Group {
       if horizontalSizeClass == .regular {
-        SiblingAppsGrid(model: model)
+        SiblingAppsGrid(viewModel: viewModel)
       } else {
-        SiblingAppsList(model: model)
+        SiblingAppsList(viewModel: viewModel)
       }
     }
     .navigationTitle(Text("moreApps.title", bundle: .module))
     .navigationBarTitleDisplayMode(horizontalSizeClass == .regular ? .inline : .large)
-    .task { await model.refresh() }
-    .onAppear { model.didShowAllApps() }
+    .task { await viewModel.send(.refresh) }
+    .onAppear { Task { await viewModel.send(.allAppsShown) } }
   }
 }

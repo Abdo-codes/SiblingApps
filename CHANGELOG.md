@@ -4,6 +4,24 @@ This project uses [Semantic Versioning](https://semver.org). Before 1.0.0, a min
 
 ## Unreleased
 
+### Breaking
+
+- The package has no third-party dependencies. A host app no longer gets `swift-dependencies`, `swift-clocks`, `combine-schedulers`, `swift-custom-dump`, `swift-concurrency-extras`, `swift-issue-reporting` and `swift-syntax` from this package.
+- `SiblingAppsModel` is now `SiblingAppsViewModel`, with `Input`, `State` and `Output`:
+
+| Old | New |
+|-----|-----|
+| `model.apps`, `model.featuredApps`, `model.deviceApps`, `model.otherDeviceApps` | `viewModel.state.apps` and the same names |
+| `model.action(for:)` | `viewModel.state.action(for:)` |
+| `await model.refresh()` | `await viewModel.send(.refresh)` |
+| `await model.perform(app)` | `await viewModel.send(.appTapped(app))` |
+| `withDependencies { $0.appLauncher = … }` | `SiblingAppsConfiguration(appLauncher: …)` |
+| `withDependencies { $0.catalogClient = … }` | `SiblingAppsConfiguration(catalogClient: …)` |
+| `.liveValue`, `.previewValue`, `.testValue` | `.live`, `.preview` |
+
+- Tests and previews no longer get safe clients automatically. Pass `.preview` for `catalogClient` and `appLauncher`.
+- A missing or bad catalog file now logs an error with `OSLog`. It no longer reports a runtime issue.
+
 ### Added
 
 - `SiblingAppsAbdoCatalog` lists SwingCoach, with its icon.

@@ -1,4 +1,3 @@
-import Dependencies
 import SnapshotTesting
 import SwiftUI
 import Testing
@@ -16,7 +15,7 @@ struct SnapshotTests {
         Section {
           Label("General", systemImage: "gear")
         }
-        SiblingAppsSection(model: Fixtures.model())
+        SiblingAppsSection(viewModel: Fixtures.viewModel())
       }
       .navigationTitle(variant.settingsTitle)
     }
@@ -26,26 +25,27 @@ struct SnapshotTests {
   @Test(arguments: Variant.allCases)
   func allAppsList(_ variant: Variant) {
     let view = NavigationStack {
-      SiblingAppsView(model: Fixtures.model())
+      SiblingAppsView(viewModel: Fixtures.viewModel())
     }
     assertSnapshot(of: variant.apply(to: view), as: variant.strategy(.iPhone13), named: variant.rawValue)
   }
 
   @Test(arguments: [Variant.light, .arabic])
   func sheet(_ variant: Variant) {
-    let view = SiblingAppsSheet(model: Fixtures.model())
+    let view = SiblingAppsSheet(viewModel: Fixtures.viewModel())
     assertSnapshot(of: variant.apply(to: view), as: variant.strategy(.iPhone13), named: variant.rawValue)
   }
 
   @Test func icon() {
-    let view = withDependencies {
-      $0.appLauncher.canOpen = { _ in false }
-    } operation: {
-      SiblingAppsIcon(
-        configuration: SiblingAppsConfiguration(hostBundleID: Fixtures.hostBundleID, catalog: AbdoCatalog.source),
-        size: 60
-      )
-    }
+    let view = SiblingAppsIcon(
+      configuration: SiblingAppsConfiguration(
+        hostBundleID: Fixtures.hostBundleID,
+        catalog: AbdoCatalog.source,
+        catalogClient: .preview,
+        appLauncher: .preview
+      ),
+      size: 60
+    )
     .padding()
     assertSnapshot(of: view, as: .image)
   }
@@ -53,7 +53,7 @@ struct SnapshotTests {
   @Test(arguments: [Variant.light, .dark])
   func iPadGrid(_ variant: Variant) {
     let view = NavigationStack {
-      SiblingAppsView(model: Fixtures.model(platform: .iPad))
+      SiblingAppsView(viewModel: Fixtures.viewModel(platform: .iPad))
     }
     assertSnapshot(
       of: variant.apply(to: view),

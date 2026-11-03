@@ -9,7 +9,7 @@ struct CatalogSourceTests {
     let configuration = SiblingAppsConfiguration(hostBundleID: "com.example.host")
     #expect(configuration.catalog.load() == .empty)
     #expect(configuration.iconBundle == nil)
-    #expect(SiblingAppsModel(configuration: configuration).apps.isEmpty)
+    #expect(SiblingAppsViewModel(configuration: configuration).state.apps.isEmpty)
   }
 
   /// The README example: a catalog in code, with remote icons.
@@ -30,7 +30,7 @@ struct CatalogSourceTests {
     )
     let configuration = SiblingAppsConfiguration(hostBundleID: "com.example.host", catalog: .inline(catalog))
     #expect(configuration.iconBundle == nil)
-    #expect(SiblingAppsModel(configuration: configuration).apps.map(\.id) == [1])
+    #expect(SiblingAppsViewModel(configuration: configuration).state.apps.map(\.id) == [1])
   }
 
   @Test func bundledCatalogUsesItsBundleForIcons() {
@@ -45,8 +45,6 @@ struct CatalogSourceTests {
   }
 
   @Test func missingResourceGivesAnEmptyCatalog() {
-    withKnownIssue {
-      #expect(CatalogSource.bundled(.main, resource: "no-such-file").load() == .empty)
-    }
+    #expect(CatalogSource.bundled(.main, resource: "no-such-file").load() == .empty)
   }
 }

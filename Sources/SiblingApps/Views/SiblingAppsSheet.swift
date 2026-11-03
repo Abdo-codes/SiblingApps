@@ -9,20 +9,20 @@ import SwiftUI
 ///   .sheet(isPresented: $showsSiblingApps) { SiblingAppsSheet() }
 /// ```
 public struct SiblingAppsSheet: View {
-  @State private var model: SiblingAppsModel
+  @State private var viewModel: SiblingAppsViewModel
   @Environment(\.dismiss) private var dismiss
 
   public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration()) {
-    _model = State(initialValue: SiblingAppsModel(configuration: configuration))
+    _viewModel = State(initialValue: SiblingAppsViewModel(configuration: configuration))
   }
 
-  init(model: SiblingAppsModel) {
-    _model = State(initialValue: model)
+  init(viewModel: SiblingAppsViewModel) {
+    _viewModel = State(initialValue: viewModel)
   }
 
   public var body: some View {
     NavigationStack {
-      SiblingAppsView(model: model)
+      SiblingAppsView(viewModel: viewModel)
         .toolbar {
           ToolbarItem(placement: .confirmationAction) {
             Button {

@@ -10,15 +10,11 @@ let package = Package(
     .library(name: "SiblingAppsAbdoCatalog", targets: ["SiblingAppsAbdoCatalog"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.11.0"),
     .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.0"),
   ],
   targets: [
     .target(
       name: "SiblingApps",
-      dependencies: [
-        .product(name: "Dependencies", package: "swift-dependencies")
-      ],
       resources: [.process("Resources")]
     ),
     .target(
@@ -31,7 +27,6 @@ let package = Package(
       dependencies: [
         "SiblingApps",
         "SiblingAppsAbdoCatalog",
-        .product(name: "DependenciesTestSupport", package: "swift-dependencies"),
         .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
       ],
       exclude: ["__Snapshots__"]
