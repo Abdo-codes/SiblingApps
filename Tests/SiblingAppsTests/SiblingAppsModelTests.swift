@@ -9,19 +9,19 @@ struct SiblingAppsModelTests {
   @Test func hidesTheHostApp() {
     let model = Fixtures.model()
     #expect(!model.apps.map(\.id).contains(AppID.wifiQR))
-    #expect(model.apps.count == 7)
+    #expect(model.apps.count == 8)
   }
 
   @Test func groupsAppsByDevice() {
     let model = Fixtures.model()
-    #expect(model.deviceApps.map(\.id) == [AppID.capybaraRush, AppID.tateemi, AppID.angryNona, AppID.colorTalk])
+    #expect(model.deviceApps.map(\.id) == [AppID.capybaraRush, AppID.tateemi, AppID.angryNona, AppID.colorTalk, AppID.swingCoach])
     #expect(model.otherDeviceApps.map(\.id) == [AppID.sajdah, AppID.tally, AppID.nightcap])
   }
 
   @Test func featuredAppsPutInstalledAppsLast() {
     let model = Fixtures.model()
     #expect(model.featuredApps.map(\.id) == [AppID.capybaraRush, AppID.angryNona, AppID.colorTalk])
-    #expect(model.folderApps.map(\.id) == [AppID.tateemi, AppID.sajdah, AppID.tally, AppID.nightcap])
+    #expect(model.folderApps.map(\.id) == [AppID.tateemi, AppID.swingCoach, AppID.sajdah, AppID.tally])
   }
 
   @Test func featuredAppsUseInstalledAppsWhenNoOthersAreLeft() {
@@ -47,7 +47,7 @@ struct SiblingAppsModelTests {
       }
     }
     #expect(cacheReads.value == 0)
-    #expect(model.apps.count == 7)
+    #expect(model.apps.count == 8)
   }
 
   @Test func usesTheCacheWithARemoteCatalog() {
@@ -76,7 +76,7 @@ struct SiblingAppsModelTests {
       $0.catalogClient.fetch = { _ in throw URLError(.notConnectedToInternet) }
     }
     await model.refresh()
-    #expect(model.apps.count == 7)
+    #expect(model.apps.count == 8)
   }
 
   @Test func refreshWithoutARemoteCatalogOnlyChecksInstalledApps() async {

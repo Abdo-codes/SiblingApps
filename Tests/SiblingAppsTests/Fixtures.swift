@@ -14,6 +14,7 @@ enum AppID {
   static let sajdah = 6759179587
   static let tally = 6760623633
   static let nightcap = 6769450957
+  static let swingCoach = 6806616079
 }
 
 enum Fixtures {

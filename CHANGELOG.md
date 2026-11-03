@@ -2,6 +2,12 @@
 
 This project uses [Semantic Versioning](https://semver.org). Before 1.0.0, a minor version can break the API.
 
+## Unreleased
+
+### Added
+
+- `SiblingAppsAbdoCatalog` lists SwingCoach, with its icon.
+
 ## 0.4.0
 
 ### Breaking: the package is now SiblingApps
