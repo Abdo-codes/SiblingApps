@@ -5,6 +5,7 @@ import UIKit
 struct AppIconView: View {
   let app: CatalogApp
   let size: CGFloat
+  let bundle: Bundle?
 
   var body: some View {
     let shape = RoundedRectangle(cornerRadius: size * 0.2237, style: .continuous)
@@ -18,10 +19,10 @@ struct AppIconView: View {
   @ViewBuilder
   private var image: some View {
     let name = "appicon-\(app.id)"
-    if UIImage(named: name, in: .module, with: nil) != nil {
-      Image(name, bundle: .module).resizable()
+    if let bundle, UIImage(named: name, in: bundle, with: nil) != nil {
+      Image(name, bundle: bundle).resizable()
     } else {
-      // An app that only the remote catalog knows has no bundled icon.
+      // An app with no bundled icon, for example an app that only the remote catalog knows.
       AsyncImage(url: app.iconURL) { image in
         image.resizable()
       } placeholder: {

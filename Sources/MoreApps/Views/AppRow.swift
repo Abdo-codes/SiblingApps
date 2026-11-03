@@ -14,12 +14,13 @@ struct AppRow: View {
   let action: AppAction
   let style: Style
   let devicePlatform: ApplePlatform
+  let iconBundle: Bundle?
 
   @Environment(\.locale) private var locale
 
   var body: some View {
     HStack(spacing: style == .compact ? 12 : 14) {
-      AppIconView(app: app, size: style == .compact ? 48 : 60)
+      AppIconView(app: app, size: style == .compact ? 48 : 60, bundle: iconBundle)
       VStack(alignment: .leading, spacing: style == .compact ? 1 : 2) {
         Text(app.name.resolved(for: locale))
           .font(style == .compact ? .callout.weight(.semibold) : .body.weight(.semibold))

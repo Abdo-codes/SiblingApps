@@ -32,7 +32,8 @@ public struct MoreAppsSection: View {
               app: app,
               action: model.action(for: app),
               style: .compact,
-              devicePlatform: model.devicePlatform
+              devicePlatform: model.devicePlatform,
+              iconBundle: model.configuration.iconBundle
             )
           }
         }
@@ -40,7 +41,7 @@ public struct MoreAppsSection: View {
           MoreAppsView(model: model)
         } label: {
           HStack(spacing: 12) {
-            FolderTileIcon(apps: model.folderApps)
+            FolderTileIcon(apps: model.folderApps, iconBundle: model.configuration.iconBundle)
             Text("moreApps.seeAll", bundle: .module)
               .foregroundStyle(.tint)
           }

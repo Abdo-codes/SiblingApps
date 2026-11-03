@@ -20,7 +20,7 @@ public final class MoreAppsModel {
     self.devicePlatform = devicePlatform
     // Use the cache only when a remote catalog is set. Else an old download can hide newer bundled apps.
     let cached = configuration.remoteCatalogURL == nil ? nil : catalogClient.cached()
-    apply(cached ?? catalogClient.bundled())
+    apply(cached ?? configuration.catalog.load())
   }
 
   /// Apps that a person can install on this device.

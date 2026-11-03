@@ -3,6 +3,7 @@ import SnapshotTesting
 import SwiftUI
 import Testing
 @testable import MoreApps
+import MoreAppsAbdoCatalog
 
 /// Renders the screens of the Paper design: light, dark, and Arabic RTL on iPhone, and the iPad grid.
 @MainActor
@@ -38,10 +39,12 @@ struct SnapshotTests {
 
   @Test func icon() {
     let view = withDependencies {
-      $0.catalogClient.bundled = { Fixtures.bundledCatalog }
       $0.appLauncher.canOpen = { _ in false }
     } operation: {
-      MoreAppsIcon(configuration: MoreAppsConfiguration(hostBundleID: Fixtures.hostBundleID), size: 60)
+      MoreAppsIcon(
+        configuration: MoreAppsConfiguration(hostBundleID: Fixtures.hostBundleID, catalog: AbdoCatalog.source),
+        size: 60
+      )
     }
     .padding()
     assertSnapshot(of: view, as: .image)

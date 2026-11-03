@@ -3,6 +3,7 @@ import SwiftUI
 /// Four small icons on a gray tile, like a folder in the App Library.
 struct FolderTileIcon: View {
   let apps: [CatalogApp]
+  let iconBundle: Bundle?
   var size: CGFloat = 48
 
   var body: some View {
@@ -29,7 +30,7 @@ struct FolderTileIcon: View {
   @ViewBuilder
   private func slot(_ index: Int, size: CGFloat) -> some View {
     if apps.indices.contains(index) {
-      AppIconView(app: apps[index], size: size)
+      AppIconView(app: apps[index], size: size, bundle: iconBundle)
     } else {
       Color.clear.frame(width: size, height: size)
     }

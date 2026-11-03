@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    # Use a GitHub-hosted runner. Do not use a self-hosted runner: pull requests from forks run here.
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Test
+        # The snapshot tests need the simulator that recorded them, so CI skips them.
+        run: |
+          DEVICE=$(xcrun simctl list devices available | grep -m1 -oE 'iPhone [^(]*\(([0-9A-F-]{36})\)' | grep -oE '[0-9A-F-]{36}')
+          xcodebuild test \
+            -scheme MoreApps-Package \
+            -destination "platform=iOS Simulator,id=$DEVICE" \
+            -skip-testing:MoreAppsTests/SnapshotTests

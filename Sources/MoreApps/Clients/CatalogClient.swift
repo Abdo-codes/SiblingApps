@@ -1,22 +1,18 @@
 import Dependencies
 import Foundation
 
-/// Loads, downloads, and caches the catalog.
+/// Downloads and caches the remote catalog.
 public struct CatalogClient: Sendable {
-  /// The catalog in the package bundle. It is always available.
-  public var bundled: @Sendable () -> Catalog
   /// The last catalog that `fetch` downloaded, if any.
   public var cached: @Sendable () -> Catalog?
   public var fetch: @Sendable (URL) async throws -> Catalog
   public var save: @Sendable (Catalog) -> Void
 
   public init(
-    bundled: @escaping @Sendable () -> Catalog,
     cached: @escaping @Sendable () -> Catalog?,
     fetch: @escaping @Sendable (URL) async throws -> Catalog,
     save: @escaping @Sendable (Catalog) -> Void
   ) {
-    self.bundled = bundled
     self.cached = cached
     self.fetch = fetch
     self.save = save
@@ -25,7 +21,6 @@ public struct CatalogClient: Sendable {
 
 extension CatalogClient: DependencyKey {
   public static let liveValue = CatalogClient(
-    bundled: { bundledCatalog },
     cached: {
       guard let data = try? Data(contentsOf: cacheURL) else { return nil }
       return try? JSONDecoder().decode(Catalog.self, from: data)
@@ -47,9 +42,8 @@ extension CatalogClient: DependencyKey {
     }
   )
 
-  /// Host-app tests and previews render the bundled catalog and never use the network or the cache.
+  /// Host-app tests and previews use the catalog source of the configuration and never use the network or the cache.
   public static let testValue = CatalogClient(
-    bundled: { bundledCatalog },
     cached: { nil },
     fetch: { _ in throw URLError(.notConnectedToInternet) },
     save: { _ in }
@@ -57,17 +51,6 @@ extension CatalogClient: DependencyKey {
 
   public static let previewValue = testValue
 
-  private static let bundledCatalog: Catalog = {
-    guard
-      let url = Bundle.module.url(forResource: "catalog", withExtension: "json"),
-      let data = try? Data(contentsOf: url),
-      let catalog = try? JSONDecoder().decode(Catalog.self, from: data)
-    else {
-      reportIssue("MoreApps: the bundled catalog.json is missing or does not decode.")
-      return .empty
-    }
-    return catalog
-  }()
 
   private static let cacheURL = URL.cachesDirectory
     .appending(path: "MoreApps", directoryHint: .isDirectory)
