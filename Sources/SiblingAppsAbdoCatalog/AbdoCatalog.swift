@@ -1,7 +1,7 @@
 import Foundation
 import SiblingApps
 
-/// The catalog and icons of the apps by Abdo Eaita. These brand assets are not covered by the MIT license.
+/// The catalog and icons of the apps by Abdoelrhman Eita. These brand assets are not covered by the MIT license.
 ///
 /// ```swift
 /// SiblingAppsSection(
