@@ -2,8 +2,9 @@ import ConcurrencyExtras
 import Dependencies
 import Foundation
 @testable import MoreApps
+import MoreAppsAbdoCatalog
 
-/// App Store IDs of the apps in the bundled catalog.
+/// App Store IDs of the apps in `AbdoCatalog`.
 enum AppID {
   static let capybaraRush = 6766263673
   static let tateemi = 6760822504
@@ -16,7 +17,7 @@ enum AppID {
 }
 
 enum Fixtures {
-  static let bundledCatalog = CatalogClient.liveValue.bundled()
+  static let bundledCatalog = AbdoCatalog.source.load()
   static let hostBundleID = "com.abdoelrhman.WiFiQR"
 
   static func app(_ id: Int, platforms: [ApplePlatform] = [.iPhone, .iPad]) -> CatalogApp {
@@ -30,7 +31,7 @@ enum Fixtures {
     )
   }
 
-  /// Makes a model with the bundled catalog. Wi-Fi QR is the host app and Tateemi is installed.
+  /// Makes a model with `AbdoCatalog`. Wi-Fi QR is the host app and Tateemi is installed.
   @MainActor
   static func model(
     platform: ApplePlatform = .iPhone,
@@ -41,7 +42,6 @@ enum Fixtures {
     dependencies: (inout DependencyValues) -> Void = { _ in }
   ) -> MoreAppsModel {
     withDependencies {
-      $0.catalogClient.bundled = { bundledCatalog }
       $0.appLauncher.canOpen = { url in installedSchemes.contains(url.scheme ?? "") }
       dependencies(&$0)
     } operation: {
@@ -49,6 +49,7 @@ enum Fixtures {
         configuration: MoreAppsConfiguration(
           hostBundleID: hostBundleID,
           hostAppName: "Wi-Fi QR",
+          catalog: AbdoCatalog.source,
           remoteCatalogURL: remoteCatalogURL,
           providerToken: providerToken,
           onEvent: { event in events?.withValue { $0.append(event) } }

@@ -1,0 +1,11 @@
+MoreApps
+Copyright (c) 2026 Abdo Eaita
+
+The MIT license in LICENSE covers the source code only.
+
+It does NOT cover these brand assets of the author's apps:
+
+- Sources/MoreAppsAbdoCatalog/Resources/ (the app catalog, the app names and the app icons)
+- Tests/MoreAppsTests/__Snapshots__/ (images that show these icons and names)
+
+Do not use these assets in your own app. Give your own catalog to the MoreApps product instead.

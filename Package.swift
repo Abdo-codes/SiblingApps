@@ -6,7 +6,8 @@ let package = Package(
   defaultLocalization: "en",
   platforms: [.iOS(.v17)],
   products: [
-    .library(name: "MoreApps", targets: ["MoreApps"])
+    .library(name: "MoreApps", targets: ["MoreApps"]),
+    .library(name: "MoreAppsAbdoCatalog", targets: ["MoreAppsAbdoCatalog"]),
   ],
   dependencies: [
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.11.0"),
@@ -20,10 +21,16 @@ let package = Package(
       ],
       resources: [.process("Resources")]
     ),
+    .target(
+      name: "MoreAppsAbdoCatalog",
+      dependencies: ["MoreApps"],
+      resources: [.process("Resources")]
+    ),
     .testTarget(
       name: "MoreAppsTests",
       dependencies: [
         "MoreApps",
+        "MoreAppsAbdoCatalog",
         .product(name: "DependenciesTestSupport", package: "swift-dependencies"),
         .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
       ],

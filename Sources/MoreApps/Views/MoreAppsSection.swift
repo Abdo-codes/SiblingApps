@@ -22,36 +22,44 @@ public struct MoreAppsSection: View {
   }
 
   public var body: some View {
-    if !model.apps.isEmpty {
-      Section {
-        ForEach(model.featuredApps) { app in
-          Button {
-            Task { await model.perform(app) }
-          } label: {
-            AppRow(
-              app: app,
-              action: model.action(for: app),
-              style: .compact,
-              devicePlatform: model.devicePlatform
-            )
-          }
-        }
-        NavigationLink {
-          MoreAppsView(model: model)
-        } label: {
-          HStack(spacing: 12) {
-            FolderTileIcon(apps: model.folderApps)
-            Text("moreApps.seeAll", bundle: .module)
-              .foregroundStyle(.tint)
-          }
-          .padding(.vertical, 4)
-        }
-        .task { await model.refresh() }
-      } header: {
-        Text("moreApps.section.title", bundle: .module)
-      } footer: {
-        Text("moreApps.section.footer", bundle: .module)
+    Group {
+      if !model.apps.isEmpty {
+        content
       }
+    }
+    // Refresh also when the catalog is empty, so that a remote-only catalog can load the first time.
+    .task { await model.refresh() }
+  }
+
+  private var content: some View {
+    Section {
+      ForEach(model.featuredApps) { app in
+        Button {
+          Task { await model.perform(app) }
+        } label: {
+          AppRow(
+            app: app,
+            action: model.action(for: app),
+            style: .compact,
+            devicePlatform: model.devicePlatform,
+            iconBundle: model.configuration.iconBundle
+          )
+        }
+      }
+      NavigationLink {
+        MoreAppsView(model: model)
+      } label: {
+        HStack(spacing: 12) {
+          FolderTileIcon(apps: model.folderApps, iconBundle: model.configuration.iconBundle)
+          Text("moreApps.seeAll", bundle: .module)
+            .foregroundStyle(.tint)
+        }
+        .padding(.vertical, 4)
+      }
+    } header: {
+      Text("moreApps.section.title", bundle: .module)
+    } footer: {
+      Text("moreApps.section.footer", bundle: .module)
     }
   }
 }

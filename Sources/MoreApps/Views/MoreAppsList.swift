@@ -31,7 +31,8 @@ struct MoreAppsList: View {
               app: app,
               action: model.action(for: app),
               style: .regular,
-              devicePlatform: model.devicePlatform
+              devicePlatform: model.devicePlatform,
+              iconBundle: model.configuration.iconBundle
             )
           }
         }

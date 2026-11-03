@@ -11,6 +11,7 @@ public struct MoreAppsIcon: View {
   }
 
   public var body: some View {
-    FolderTileIcon(apps: Array(model.apps.prefix(4)), size: size)
+    FolderTileIcon(apps: Array(model.apps.prefix(4)), iconBundle: model.configuration.iconBundle, size: size)
+      .task { await model.refresh() }
   }
 }
