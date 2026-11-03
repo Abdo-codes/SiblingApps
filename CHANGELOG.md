@@ -25,7 +25,7 @@ The package, products, modules and public types have new names. The behavior is 
 
 To migrate:
 
-1. Change the package URL to `https://github.com/Abdo-codes/SiblingApps` and the version to `from: "0.4.0"`. GitHub redirects the old URL, but use the new one.
+1. Change the package URL to `https://github.com/Abdo-codes/SiblingApps` and the version to `from: "0.4.0"`.
 2. Change the product names: `.product(name: "SiblingApps", package: "SiblingApps")`.
 3. Replace `MoreApps` with `SiblingApps` in your imports and type names.
 
