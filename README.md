@@ -71,7 +71,7 @@ You make more than one app. Each app can help people find the others. This packa
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/Abdo-codes/SiblingApps", from: "0.4.0"),
+  .package(url: "https://github.com/Abdo-codes/SiblingApps", from: "0.5.0"),
 ],
 targets: [
   .target(name: "MyApp", dependencies: [
