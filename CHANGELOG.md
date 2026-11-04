@@ -2,11 +2,11 @@
 
 This project uses [Semantic Versioning](https://semver.org). Before 1.0.0, a minor version can break the API.
 
-## Unreleased
+## 0.5.0
 
 ### Breaking
 
-- The package has no third-party dependencies. A host app no longer gets `swift-dependencies`, `swift-clocks`, `combine-schedulers`, `swift-custom-dump`, `swift-concurrency-extras`, `swift-issue-reporting` and `swift-syntax` from this package.
+- The package has no third-party dependencies. A host app no longer gets `swift-dependencies`, `swift-clocks`, `combine-schedulers`, `swift-custom-dump`, `swift-concurrency-extras`, `swift-issue-reporting` and `swift-syntax` from this package. The test target still uses `swift-snapshot-testing`, and a host app does not get it.
 - `SiblingAppsModel` is now `SiblingAppsViewModel`, with `Input`, `State` and `Output`:
 
 | Old | New |
