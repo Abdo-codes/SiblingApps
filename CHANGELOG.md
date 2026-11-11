@@ -11,6 +11,10 @@ This project uses [Semantic Versioning](https://semver.org). Before 1.0.0, a min
 - A view model downloads the remote catalog one time in each `remoteCatalogRefreshInterval`. The default is 1 hour.
 - The views check again which apps are installed when the host app becomes active, so that "Get" changes to "Open" after an install.
 
+### Tests
+
+- CI runs the snapshot tests on an iPhone 17 simulator with iOS 27.2. On a different simulator, the tests skip them.
+
 ### Added
 
 - `init(viewModel:)` is public on `SiblingAppsSection`, `SiblingAppsView`, `SiblingAppsSheet` and `SiblingAppsIcon`. Views with the same view model share one catalog and one download.
