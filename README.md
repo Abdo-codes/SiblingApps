@@ -248,10 +248,12 @@ Issues and pull requests are welcome. New languages for the built-in text are a 
 2. Run the tests:
 
    ```bash
-   xcodebuild test -scheme SiblingApps-Package -destination 'platform=iOS Simulator,name=iPhone 17'
+   xcodebuild test -scheme SiblingApps-Package -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.2'
    ```
 
-3. If a screen changes, delete its old snapshots and run the tests two times to record them again. The snapshot tests need the same simulator for each run, so CI skips them.
+   The snapshot tests run only on an iPhone 17 simulator with iOS 27.2. On a different simulator, the tests skip them, and CI runs them for your pull request.
+
+3. If a screen changes, delete its old snapshots and run the tests two times on that simulator to record them again. If you do not have that simulator, download the `new-snapshots` artifact from the failed `snapshots` job of your pull request and commit its images.
 4. Add a line to [CHANGELOG.md](CHANGELOG.md) and open a pull request.
 
 ## License

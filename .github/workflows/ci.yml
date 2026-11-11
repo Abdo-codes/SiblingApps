@@ -25,10 +25,40 @@ jobs:
         run: xcodebuild -version
 
       - name: Test
-        # The snapshot tests need the simulator that recorded them, so CI skips them.
+        # The snapshot tests need the simulator that recorded them. The `snapshots` job runs them.
         run: |
           DEVICE=$(xcrun simctl list devices available | grep -m1 -oE 'iPhone [^(]*\(([0-9A-F-]{36})\)' | grep -oE '[0-9A-F-]{36}')
           xcodebuild test \
             -scheme SiblingApps-Package \
             -destination "platform=iOS Simulator,id=$DEVICE" \
             -skip-testing:SiblingAppsTests/SnapshotTests
+
+  snapshots:
+    # The snapshots match only on the simulator that recorded them: an iPhone 17 with iOS 27.2.
+    # Keep this simulator the same as `SnapshotEnvironment` in the tests.
+    runs-on: xcode-27
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 27.2
+        run: sudo xcode-select -s /Applications/Xcode_27.2.app
+
+      - name: Test the snapshots
+        env:
+          # Fail on a wrong simulator. Do not skip the tests.
+          TEST_RUNNER_SNAPSHOT_TESTS_REQUIRED: "1"
+          # Write the new image of each snapshot that fails, for the upload step.
+          TEST_RUNNER_SNAPSHOT_TESTING_RECORD: failed
+        run: |
+          xcodebuild test \
+            -scheme SiblingApps-Package \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=27.2' \
+            -only-testing:SiblingAppsTests/SnapshotTests
+
+      - name: Upload the new snapshots
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: new-snapshots
+          path: Tests/SiblingAppsTests/__Snapshots__

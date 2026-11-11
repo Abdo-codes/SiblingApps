@@ -5,8 +5,9 @@ import Testing
 import SiblingAppsAbdoCatalog
 
 /// Renders the screens of the Paper design: light, dark, and Arabic RTL on iPhone, and the iPad grid.
+/// The tests run only on the simulator of `SnapshotEnvironment`.
 @MainActor
-@Suite(.serialized)
+@Suite(.serialized, .enabled(if: SnapshotEnvironment.isCurrent, Comment(rawValue: SnapshotEnvironment.skipReason)))
 struct SnapshotTests {
   @Test(arguments: Variant.allCases)
   func settingsSection(_ variant: Variant) {
