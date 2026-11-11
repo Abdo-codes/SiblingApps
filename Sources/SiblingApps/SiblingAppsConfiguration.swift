@@ -14,6 +14,8 @@ public struct SiblingAppsConfiguration: Sendable {
   /// A JSON file with the same format as the catalog.
   /// If you set it, new apps appear without an update of the host app.
   public var remoteCatalogURL: URL?
+  /// The minimum time between two downloads of the remote catalog by one view model.
+  public var remoteCatalogRefreshInterval: Duration
   /// The number of apps in the Settings section.
   public var featuredCount: Int
   /// App Store Connect shows this token in App Analytics > Sources.
@@ -32,6 +34,7 @@ public struct SiblingAppsConfiguration: Sendable {
     catalog: CatalogSource = .inline(.empty),
     iconBundle: Bundle? = nil,
     remoteCatalogURL: URL? = nil,
+    remoteCatalogRefreshInterval: Duration = .seconds(3600),
     featuredCount: Int = 3,
     campaignToken: String = "more-apps",
     providerToken: String? = nil,
@@ -44,6 +47,7 @@ public struct SiblingAppsConfiguration: Sendable {
     self.catalog = catalog
     self.iconBundle = iconBundle ?? catalog.bundle
     self.remoteCatalogURL = remoteCatalogURL
+    self.remoteCatalogRefreshInterval = remoteCatalogRefreshInterval
     self.featuredCount = featuredCount
     self.campaignToken = campaignToken
     self.providerToken = providerToken

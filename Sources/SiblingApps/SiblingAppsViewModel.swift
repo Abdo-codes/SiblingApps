@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import OSLog
 
 /// Holds the catalog for one host app.
 ///
@@ -12,13 +13,15 @@ public final class SiblingAppsViewModel {
 
   public let configuration: SiblingAppsConfiguration
   public private(set) var state: State
+  /// The start time of the last download that did not fail.
+  @ObservationIgnored private var lastDownload: ContinuousClock.Instant?
 
   public init(configuration: SiblingAppsConfiguration, devicePlatform: ApplePlatform = .current) {
     self.configuration = configuration
     state = State(devicePlatform: devicePlatform, featuredCount: configuration.featuredCount)
     // Use the cache only when a remote catalog is set. Else an old download can hide newer bundled apps.
     let cached = configuration.remoteCatalogURL == nil ? nil : configuration.catalogClient.cached()
-    apply(cached ?? configuration.catalog.load())
+    apply(cached.flatMap { $0.isUsableDownload ? $0 : nil } ?? configuration.catalog.load())
   }
 
   public func send(_ input: Input) async {
@@ -34,18 +37,30 @@ public final class SiblingAppsViewModel {
 
   /// Downloads the remote catalog, if one is set, and checks again which apps are installed.
   private func refresh() async {
-    guard let url = configuration.remoteCatalogURL else {
-      refreshInstalledApps()
-      return
-    }
+    // Do this first. It does not use the network, and the download can be slow.
+    refreshInstalledApps()
+    guard let url = configuration.remoteCatalogURL, isDownloadDue else { return }
+    // Set the time before the download starts, so that a second refresh does not start a second download.
+    lastDownload = .now
     do {
       let catalog = try await configuration.catalogClient.fetch(url)
+      guard catalog.isUsableDownload else {
+        // Keep the current catalog and the cache. A bad file on the server must not hide the apps.
+        Logger(subsystem: "SiblingApps", category: "catalog")
+          .error("The remote catalog has no apps or has a schema version that is too new. The package ignores it.")
+        return
+      }
       configuration.catalogClient.save(catalog)
       apply(catalog)
     } catch {
       // Keep the current catalog. The next refresh tries again.
-      refreshInstalledApps()
+      lastDownload = nil
     }
+  }
+
+  private var isDownloadDue: Bool {
+    guard let lastDownload else { return true }
+    return ContinuousClock.now - lastDownload >= configuration.remoteCatalogRefreshInterval
   }
 
   private func perform(_ app: CatalogApp) async {

@@ -4,16 +4,20 @@ import SwiftUI
 ///
 /// `SiblingAppsSection` pushes this screen. You can also push or present it yourself.
 public struct SiblingAppsView: View {
-  @State private var viewModel: SiblingAppsViewModel
+  @State private var box: ViewModelBox
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+  @Environment(\.scenePhase) private var scenePhase
 
   public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration()) {
-    _viewModel = State(initialValue: SiblingAppsViewModel(configuration: configuration))
+    _box = State(initialValue: ViewModelBox(configuration: configuration))
   }
 
-  init(viewModel: SiblingAppsViewModel) {
-    _viewModel = State(initialValue: viewModel)
+  /// Uses a view model that you keep. Views with the same view model share one catalog and one download.
+  public init(viewModel: SiblingAppsViewModel) {
+    _box = State(initialValue: ViewModelBox(viewModel: viewModel))
   }
+
+  private var viewModel: SiblingAppsViewModel { box.viewModel }
 
   public var body: some View {
     Group {
@@ -26,6 +30,12 @@ public struct SiblingAppsView: View {
     .navigationTitle(Text("moreApps.title", bundle: .module))
     .navigationBarTitleDisplayMode(horizontalSizeClass == .regular ? .inline : .large)
     .task { await viewModel.send(.refresh) }
+    .onChange(of: scenePhase) { _, phase in
+      // A person can install an app and come back. Check again which apps are installed.
+      if phase == .active {
+        Task { await viewModel.send(.refresh) }
+      }
+    }
     .onAppear { Task { await viewModel.send(.allAppsShown) } }
   }
 }

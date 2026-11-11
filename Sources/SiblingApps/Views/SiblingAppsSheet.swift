@@ -9,16 +9,19 @@ import SwiftUI
 ///   .sheet(isPresented: $showsSiblingApps) { SiblingAppsSheet() }
 /// ```
 public struct SiblingAppsSheet: View {
-  @State private var viewModel: SiblingAppsViewModel
+  @State private var box: ViewModelBox
   @Environment(\.dismiss) private var dismiss
 
   public init(configuration: SiblingAppsConfiguration = SiblingAppsConfiguration()) {
-    _viewModel = State(initialValue: SiblingAppsViewModel(configuration: configuration))
+    _box = State(initialValue: ViewModelBox(configuration: configuration))
   }
 
-  init(viewModel: SiblingAppsViewModel) {
-    _viewModel = State(initialValue: viewModel)
+  /// Uses a view model that you keep. Views with the same view model share one catalog and one download.
+  public init(viewModel: SiblingAppsViewModel) {
+    _box = State(initialValue: ViewModelBox(viewModel: viewModel))
   }
+
+  private var viewModel: SiblingAppsViewModel { box.viewModel }
 
   public var body: some View {
     NavigationStack {

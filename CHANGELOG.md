@@ -2,6 +2,20 @@
 
 This project uses [Semantic Versioning](https://semver.org). Before 1.0.0, a minor version can break the API.
 
+## Unreleased
+
+### Changed
+
+- A view makes its view model when it draws for the first time. Before, each draw of the parent view read the catalog again.
+- The package ignores a remote catalog or a cached catalog that has no apps or has a `schemaVersion` larger than `Catalog.supportedSchemaVersion`. Before, a bad file on the server removed the section.
+- A view model downloads the remote catalog one time in each `remoteCatalogRefreshInterval`. The default is 1 hour.
+- The views check again which apps are installed when the host app becomes active, so that "Get" changes to "Open" after an install.
+
+### Added
+
+- `init(viewModel:)` is public on `SiblingAppsSection`, `SiblingAppsView`, `SiblingAppsSheet` and `SiblingAppsIcon`. Views with the same view model share one catalog and one download.
+- `SiblingAppsConfiguration.remoteCatalogRefreshInterval` and `Catalog.supportedSchemaVersion`.
+
 ## 0.5.0
 
 ### Breaking
