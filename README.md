@@ -123,6 +123,8 @@ If a scheme is not in this list, the app shows "Get".
 
 Host the same JSON on your server and set `remoteCatalogURL`. When the screen appears, the package downloads the file and caches it. With no cache and no network, it uses `catalog`.
 
+A view model downloads the file one time in each `remoteCatalogRefreshInterval`. The package ignores a downloaded file that has no apps or has a `schemaVersion` larger than `1`. It then keeps the catalog that it shows.
+
 ```swift
 SiblingAppsConfiguration(
   catalog: .bundled(.main),
@@ -137,6 +139,7 @@ SiblingAppsConfiguration(
 | `catalog` | `.inline(.empty)` | The apps to show. |
 | `iconBundle` | the bundle of a `.bundled` catalog | The bundle with the `appicon-<id>` images. |
 | `remoteCatalogURL` | `nil` | A hosted catalog. |
+| `remoteCatalogRefreshInterval` | 1 hour | The minimum time between two downloads of the hosted catalog. |
 | `featuredCount` | `3` | The number of apps in the Settings section. |
 | `campaignToken` | `"more-apps"` | App Store Connect shows it in App Analytics > Sources. |
 | `providerToken` | `nil` | Your provider ID. App Analytics needs it to attribute campaigns. |
@@ -162,6 +165,13 @@ Button {
 ```
 
 `SiblingAppsView(configuration:)` is the full screen with no navigation stack, if you want to push it yourself.
+
+Each view that you make from a configuration has its own catalog and its own download. To share them, keep one `SiblingAppsViewModel` and pass it to the views:
+
+```swift
+SiblingAppsIcon(viewModel: siblingApps, size: 40)
+SiblingAppsSheet(viewModel: siblingApps)
+```
 
 ### Tests and previews
 
@@ -207,7 +217,7 @@ ForEach(viewModel.state.featuredApps) { app in
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `schemaVersion` | Yes | Use `1`. |
+| `schemaVersion` | Yes | Use `1`. The package ignores a hosted catalog with a larger number. |
 | `id` | Yes | The App Store ID. |
 | `bundleID` | Yes | The package hides the app with the bundle ID of the host. |
 | `name`, `subtitle`, `category` | Yes | One value for each language code. A missing language uses `en`. |
