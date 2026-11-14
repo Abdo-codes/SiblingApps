@@ -37,6 +37,30 @@ struct SnapshotTests {
     assertSnapshot(of: variant.apply(to: view), as: variant.strategy(.iPhone13), named: variant.rawValue)
   }
 
+  /// A subtitle that is longer than one line must wrap to a second line, and the capsule must stay centered.
+  @Test(arguments: [Variant.light, .arabic])
+  func longSubtitle(_ variant: Variant) {
+    let app = CatalogApp(
+      id: AppID.wifiQR,
+      bundleID: "com.example.long",
+      name: LocalizedText(["en": "Wi-Fi QR", "ar": "واي فاي كيو آر"]),
+      subtitle: LocalizedText([
+        "en": "Share your Wi-Fi with guests using a QR code",
+        "ar": "شارك شبكة الواي فاي مع ضيوفك برمز سريع",
+      ]),
+      category: LocalizedText(["en": "Utilities", "ar": "أدوات"]),
+      platforms: [.iPhone, .iPad]
+    )
+    func row(_ style: AppRow.Style) -> some View {
+      AppRow(app: app, action: .get, style: style, devicePlatform: .iPhone, iconBundle: nil)
+    }
+    let view = List {
+      row(.compact)
+      row(.regular)
+    }
+    assertSnapshot(of: variant.apply(to: view), as: variant.strategy(.iPhone13), named: variant.rawValue)
+  }
+
   @Test func icon() {
     let view = SiblingAppsIcon(
       configuration: SiblingAppsConfiguration(

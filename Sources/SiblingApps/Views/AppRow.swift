@@ -4,9 +4,9 @@ import UIKit
 /// One app: icon, name, subtitle, and the action capsule.
 struct AppRow: View {
   enum Style {
-    /// Two lines and a 48 pt icon, for the Settings section.
+    /// Up to three lines and a 48 pt icon, for the Settings section.
     case compact
-    /// Three lines and a 60 pt icon, for the full list and the iPad cards.
+    /// Up to four lines and a 60 pt icon, for the full list and the iPad cards.
     case regular
   }
 
@@ -17,6 +17,7 @@ struct AppRow: View {
   let iconBundle: Bundle?
 
   @Environment(\.locale) private var locale
+  @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
   var body: some View {
     HStack(spacing: style == .compact ? 12 : 14) {
@@ -25,16 +26,20 @@ struct AppRow: View {
         Text(app.name.resolved(for: locale))
           .font(style == .compact ? .callout.weight(.semibold) : .body.weight(.semibold))
           .foregroundStyle(Color.primary)
+          .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+          .fixedSize(horizontal: false, vertical: true)
         Text(app.subtitle.resolved(for: locale))
           .font(.subheadline)
           .foregroundStyle(Self.subtitleColor)
+          .lineLimit(2)
+          .fixedSize(horizontal: false, vertical: true)
         if style == .regular {
           detail
             .font(.footnote)
             .foregroundStyle(Color.secondary)
+            .lineLimit(1)
         }
       }
-      .lineLimit(1)
       .frame(maxWidth: .infinity, alignment: .leading)
       ActionButtonLabel(action: action, minWidth: style == .compact ? 64 : 72)
     }
