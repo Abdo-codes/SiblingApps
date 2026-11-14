@@ -4,6 +4,10 @@ This project uses [Semantic Versioning](https://semver.org). Before 1.0.0, a min
 
 ## Unreleased
 
+### Fixed
+
+- A long app subtitle wraps to a second line. Before, it ended with an ellipsis, for example "Share Wi-Fi with a QR code".
+
 ### Changed
 
 - A view makes its view model when it draws for the first time. Before, each draw of the parent view read the catalog again.
