@@ -2,7 +2,7 @@
 
 This project uses [Semantic Versioning](https://semver.org). Before 1.0.0, a minor version can break the API.
 
-## Unreleased
+## 0.5.1
 
 ### Fixed
 
